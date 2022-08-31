@@ -19,14 +19,14 @@
   "dependencies": {
     "chrome-aws-lambda": "10.1.0",
     "node-fetch": "^3.2.10",
-    "puppeteer": "^10.1.0",
-    "puppeteer-core": "^10.1.0",
+    "puppeteer-core": "13.5.2",
     "puppeteer-extra": "3.3.4",
     "puppeteer-extra-plugin-adblocker": "2.13.5",
     "puppeteer-extra-plugin-stealth": "2.11.1"
   },
   "devDependencies": {
     "@betahuhn/eslint-config-node": "^0.1.1",
+    "puppeteer": "^10.1.0",
     "eslint": "^7.13.0"
   }
 }
