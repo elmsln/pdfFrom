@@ -1,13 +1,11 @@
 {
-  "name": "vercel-pdf-converter",
+  "name": "vercel-pdffrom-lrnwebcomponents",
   "version": "1.0.0",
   "description": "Vercel function which generates PDFs from Webpages.",
-  "author": "Maximilian Schiller <hello@mxis.ch>",
+  "author": "elmsln",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint --ignore-path .gitignore . --ext .js",
-    "develop": "vercel dev",
-    "deploy": "vercel deploy --prod"
+    "lint": "eslint --ignore-path .gitignore . --ext .js"
   },
   "type": "module",
   "repository": {
@@ -19,17 +17,16 @@
   },
   "homepage": "https://github.com/elmsln/pdfFrom#readme",
   "dependencies": {
-    "chrome-aws-lambda": "^5.5.0",
+    "chrome-aws-lambda": "10.1.0",
     "node-fetch": "^3.2.10",
-    "puppeteer": "^5.5.0",
-    "puppeteer-core": "^5.5.0",
-    "puppeteer-extra": "^3.1.15",
-    "puppeteer-extra-plugin-adblocker": "^2.11.9",
-    "puppeteer-extra-plugin-stealth": "^2.6.5"
+    "puppeteer": "^10.1.0",
+    "puppeteer-core": "^10.1.0",
+    "puppeteer-extra": "3.3.4",
+    "puppeteer-extra-plugin-adblocker": "2.13.5",
+    "puppeteer-extra-plugin-stealth": "2.11.1"
   },
   "devDependencies": {
     "@betahuhn/eslint-config-node": "^0.1.1",
-    "eslint": "^7.13.0",
-    "vercel": "^19.1.1"
+    "eslint": "^7.13.0"
   }
 }
