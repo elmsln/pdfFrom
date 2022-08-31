@@ -1,9 +1,8 @@
-const { getPdf } = require('../service/convert')
-
+import { getPdf } from '../service/convert.js';
 // Cache header max age
 const maxAge = 24 * 60 * 60
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
 	try {
 		// Only allow GET requests
 		if (req.method !== 'GET') return res.status(405).end()
@@ -14,7 +13,7 @@ module.exports = async (req, res) => {
 		// Block favicon.ico requests from reaching puppeteer
 		if (url === 'favicon.ico') return res.status(404).end()
 
-		console.log(`Converting: ${ url }`)
+		console.log(`Converting: ${ url }`)		
 		const pdfBuffer = await getPdf(url)
 
 		if (!pdfBuffer) return res.status(400).send('Error: could not generate PDF')

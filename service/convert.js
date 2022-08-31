@@ -4,21 +4,21 @@ import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker'
 
 // Workaround, see https://github.com/berstend/puppeteer-extra/issues/93#issuecomment-712364816
 import StealthPlugin from 'puppeteer-extra-plugin-stealth'
-import ChromeAppPlugin from 'puppeteer-extra-plugin-stealth/evasions/chrome.app'
-import ChromeCsiPlugin from 'puppeteer-extra-plugin-stealth/evasions/chrome.csi'
-import ChromeLoadTimes from 'puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes'
-import ChromeRuntimePlugin from 'puppeteer-extra-plugin-stealth/evasions/chrome.runtime'
-import IFrameContentWindowPlugin from 'puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow'
-import MediaCodecsPlugin from 'puppeteer-extra-plugin-stealth/evasions/media.codecs'
-import NavigatorLanguagesPlugin from 'puppeteer-extra-plugin-stealth/evasions/navigator.languages'
-import NavigatorPermissionsPlugin from 'puppeteer-extra-plugin-stealth/evasions/navigator.permissions'
-import NavigatorPlugins from 'puppeteer-extra-plugin-stealth/evasions/navigator.plugins'
-import NavigatorVendor from 'puppeteer-extra-plugin-stealth/evasions/navigator.vendor'
-import NavigatorWebdriver from 'puppeteer-extra-plugin-stealth/evasions/navigator.webdriver'
-import SourceUrlPlugin from 'puppeteer-extra-plugin-stealth/evasions/sourceurl'
-import UserAgentOverridePlugin from 'puppeteer-extra-plugin-stealth/evasions/user-agent-override'
-import WebglVendorPlugin from 'puppeteer-extra-plugin-stealth/evasions/webgl.vendor'
-import WindowOuterDimensionsPlugin from 'puppeteer-extra-plugin-stealth/evasions/window.outerdimensions'
+import ChromeAppPlugin from 'puppeteer-extra-plugin-stealth/evasions/chrome.app/index.js'
+import ChromeCsiPlugin from 'puppeteer-extra-plugin-stealth/evasions/chrome.csi/index.js'
+import ChromeLoadTimes from 'puppeteer-extra-plugin-stealth/evasions/chrome.loadTimes/index.js'
+import ChromeRuntimePlugin from 'puppeteer-extra-plugin-stealth/evasions/chrome.runtime/index.js'
+import IFrameContentWindowPlugin from 'puppeteer-extra-plugin-stealth/evasions/iframe.contentWindow/index.js'
+import MediaCodecsPlugin from 'puppeteer-extra-plugin-stealth/evasions/media.codecs/index.js'
+import NavigatorLanguagesPlugin from 'puppeteer-extra-plugin-stealth/evasions/navigator.languages/index.js'
+import NavigatorPermissionsPlugin from 'puppeteer-extra-plugin-stealth/evasions/navigator.permissions/index.js'
+import NavigatorPlugins from 'puppeteer-extra-plugin-stealth/evasions/navigator.plugins/index.js'
+import NavigatorVendor from 'puppeteer-extra-plugin-stealth/evasions/navigator.vendor/index.js'
+import NavigatorWebdriver from 'puppeteer-extra-plugin-stealth/evasions/navigator.webdriver/index.js'
+import SourceUrlPlugin from 'puppeteer-extra-plugin-stealth/evasions/sourceurl/index.js'
+import UserAgentOverridePlugin from 'puppeteer-extra-plugin-stealth/evasions/user-agent-override/index.js'
+import WebglVendorPlugin from 'puppeteer-extra-plugin-stealth/evasions/webgl.vendor/index.js'
+import WindowOuterDimensionsPlugin from 'puppeteer-extra-plugin-stealth/evasions/window.outerdimensions/index.js'
 
 // Configure puppeteer-extra plugins
 const puppeteer = addExtra(chrome.puppeteer)
@@ -47,36 +47,37 @@ const plugins = [
 
 const isDev = process.env.NODE_ENV === 'development'
 
-// Path to chrome executable on different platforms
-const chromeExecutables = {
-	linux: '/usr/bin/chromium-browser',
-	win32: 'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
-	darwin: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-}
-
-export const getOptions = async (isDev) => {
-
-	// During development use local chrome executable
-	if (isDev) {
+export async function getOptions() {
+	const executablePath = await chrome.executablePath
+	if (!executablePath) {
+		// running locally
+		const puppeteer = await import('puppeteer').then((m) => {
+      return m.default;
+    });
 		return {
-			args: [],
-			executablePath: chromeExecutables[process.platform] || chromeExecutables.linux,
-			headless: true
-		}
+			args: chrome.args,
+			headless: true,
+			defaultViewport: {
+				width: 1280,
+				height: 720
+			},
+			ignoreHTTPSErrors: true
+		};
 	}
 
-	// Else, use the path of chrome-aws-lambda and its args
 	return {
-		args: chrome.args,
-		executablePath: await chrome.executablePath,
-		headless: chrome.headless
-	}
+    args: chrome.args,
+    defaultViewport: chrome.defaultViewport,
+    executablePath: executablePath,
+		headless: chrome.headless,
+		ignoreHTTPSErrors: true
+	};
 }
 
-export const getPdf = async (url) => {
+export const getPdf = async (source, type = 'link') => {
 
 	// Start headless chrome instance
-	const options = await getOptions(isDev)
+	const options = await getOptions()
 	const browser = await puppeteer.launch(options)
 
 	// Load all plugins manually
@@ -87,7 +88,14 @@ export const getPdf = async (url) => {
 	const page = await browser.newPage()
 
 	// Visit URL and wait until everything is loaded (available events: load, domcontentloaded, networkidle0, networkidle2)
-	await page.goto(url, { waitUntil: 'networkidle2', timeout: 8000 })
+	const event = 'networkidle2';
+	// or, handle HTML directly that it's been told to render
+	if (type == 'link') {
+		await page.goto(source, { waitUntil: event, timeout: 10000 })
+	}
+	else {
+		await page.setContent(source,{ waitUntil: event, timeout: 10000 });
+	}
 
 	// Scroll to bottom of page to force loading of lazy loaded images
 	await page.evaluate(async () => {

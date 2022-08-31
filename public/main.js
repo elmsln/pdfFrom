@@ -32,7 +32,7 @@ input.addEventListener('keyup', function(event) {
 })
 
 function onInput(input) {
-	go.href = `http://${ window.location.host }/${ input.value }`
+	go.href = `http://${ window.location.host }/api/pdfFromUrl/${ input.value }`
 }
 
 function copy() {
