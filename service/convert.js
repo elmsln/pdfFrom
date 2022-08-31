@@ -121,7 +121,13 @@ export const getPdf = async (source, type = 'link') => {
 		displayHeaderFooter: true,
 		headerTemplate: '',
 		footerTemplate: '',
-		printBackground: true
+		printBackground: true,
+		margin: {
+			top: 20,
+			left: 20,
+			right: 20,
+			bottom: 20
+		}
 	})
 
 	// Close chrome instance
