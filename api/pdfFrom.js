@@ -24,7 +24,6 @@ export default async function handler(req, res) {
     res = invalidRequest(res, 'missing `url` param');
   }
   else {
-    console.log(`Converting: ${ url }`)		
     const pdfBuffer = await getPdf(url, type)
 		if (!pdfBuffer) {
       res = invalidRequest(res, 'Error: could not generate PDF', 400);
