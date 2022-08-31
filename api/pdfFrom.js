@@ -5,7 +5,7 @@ const maxAge = 24 * 60 * 60
 
 export default async function handler(req, res) {
   // destructing GET params after ? available in this object
-  var { url, type } = req.query;
+  var { url, type, responseType } = req.query;
   // use this if POST data is what's being sent
   const body = stdPostBody(req);
   // fallback support for post on both values
@@ -15,9 +15,16 @@ export default async function handler(req, res) {
   if (!type && body && body.type) {
     type = body.type;
   }
+  if (!responseType && body && body.responseType) {
+    responseType = body.responseType;
+  }
   // type allows switching between html or link but is optional
   if (type === null) {
     type = 'link';
+  }
+  // type allows switching between html or link but is optional
+  if (responseType === null) {
+    responseType = 'application/pdf';
   }
   // url required
   if (url === null) {
@@ -30,7 +37,7 @@ export default async function handler(req, res) {
       res = invalidRequest(res, 'Error: could not generate PDF', 400);
     }
     else {
-      stdResponse(res, pdfBuffer,{methods: "GET,OPTIONS", cache: maxAge, type:'application/pdf'});
+      stdResponse(res, pdfBuffer,{methods: "GET,OPTIONS", cache: maxAge, type: responseType});
     }
   }
 }
