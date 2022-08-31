@@ -1,5 +1,5 @@
 {
-  "name": "vercel-pdffrom-lrnwebcomponents",
+  "name": "vercel-pdf-from-lrnwebcomponents",
   "version": "1.0.0",
   "description": "Vercel function which generates PDFs from Webpages.",
   "author": "elmsln",
