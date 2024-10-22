@@ -69,8 +69,8 @@ export async function getOptions() {
     args: chrome.args,
     defaultViewport: chrome.defaultViewport,
     executablePath: executablePath,
-		headless: chrome.headless,
-		ignoreHTTPSErrors: true
+	headless: chrome.headless,
+	ignoreHTTPSErrors: true
 	};
 }
 
