@@ -1,4 +1,7 @@
-import chrome from 'chrome-aws-lambda'
+import pkg from '@sparticuz/chromium';
+const chromium = pkg;
+import pkg2 from 'puppeteer-core';
+const corePup = pkg2;
 import { addExtra } from 'puppeteer-extra'
 import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker'
 
@@ -21,7 +24,7 @@ import WebglVendorPlugin from 'puppeteer-extra-plugin-stealth/evasions/webgl.ven
 import WindowOuterDimensionsPlugin from 'puppeteer-extra-plugin-stealth/evasions/window.outerdimensions/index.js'
 
 // Configure puppeteer-extra plugins
-const puppeteer = addExtra(chrome.puppeteer)
+const puppeteer = addExtra(corePup);
 const plugins = [
 	AdblockerPlugin({ blockTrackers: true }),
 	StealthPlugin(),
@@ -48,14 +51,14 @@ const plugins = [
 const isDev = process.env.NODE_ENV === 'development'
 
 export async function getOptions() {
-	const executablePath = await chrome.executablePath
+	const executablePath = await chromium.executablePath()
 	if (!executablePath) {
 		// running locally
 		const puppeteer = await import('puppeteer').then((m) => {
       return m.default;
     });
 		return {
-			args: chrome.args,
+			args: chromium.args,
 			headless: true,
 			defaultViewport: {
 				width: 1280,
@@ -66,17 +69,17 @@ export async function getOptions() {
 	}
 
 	return {
-    args: chrome.args,
-    defaultViewport: chrome.defaultViewport,
+    args: chromium.args,
+    defaultViewport: chromium.defaultViewport,
     executablePath: executablePath,
-	headless: chrome.headless,
+	headless: chromium.headless,
 	ignoreHTTPSErrors: true
 	};
 }
 
 export const getPdf = async (source, type = 'link') => {
 
-	// Start headless chrome instance
+	// Start headless chromium instance
 	const options = await getOptions()
 	const browser = await puppeteer.launch(options)
 
@@ -130,7 +133,7 @@ export const getPdf = async (source, type = 'link') => {
 		}
 	})
 
-	// Close chrome instance
+	// Close chromium instance
 	await browser.close()
 
 	return buffer

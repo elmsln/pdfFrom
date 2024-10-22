@@ -17,12 +17,12 @@
   },
   "homepage": "https://github.com/haxtheweb/pdfFrom#readme",
   "dependencies": {
-    "chrome-aws-lambda": "10.1.0",
+    "@sparticuz/chromium": "^130.0.0",
     "node-fetch": "^3.2.10",
-    "puppeteer-core": "13.5.2",
-    "puppeteer-extra": "3.3.4",
-    "puppeteer-extra-plugin-adblocker": "2.13.5",
-    "puppeteer-extra-plugin-stealth": "2.11.1"
+    "puppeteer-core": "22.5.0",
+    "puppeteer-extra": "3.3.6",
+    "puppeteer-extra-plugin-adblocker": "2.13.6",
+    "puppeteer-extra-plugin-stealth": "2.11.2"
   },
   "engines": {
     "node": "20.x"
