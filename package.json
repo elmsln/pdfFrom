@@ -1,8 +1,8 @@
 {
-  "name": "vercel-pdf-from-lrnwebcomponents",
-  "version": "1.0.0",
+  "name": "vercel-pdf-from-haxtheweb",
+  "version": "1.0.1",
   "description": "Vercel function which generates PDFs from Webpages.",
-  "author": "elmsln",
+  "author": "haxtheweb",
   "license": "MIT",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore . --ext .js"
@@ -10,12 +10,12 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/elmsln/pdfFrom.git"
+    "url": "git+https://github.com/haxtheweb/pdfFrom.git"
   },
   "bugs": {
-    "url": "https://github.com/elmsln/pdfFrom/issues"
+    "url": "https://github.com/haxtheweb/issues/issues"
   },
-  "homepage": "https://github.com/elmsln/pdfFrom#readme",
+  "homepage": "https://github.com/haxtheweb/pdfFrom#readme",
   "dependencies": {
     "chrome-aws-lambda": "10.1.0",
     "node-fetch": "^3.2.10",

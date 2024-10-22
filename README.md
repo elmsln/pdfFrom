@@ -12,14 +12,14 @@ This repo contains the code for a simple [Vercel](https://vercel.com) function w
 
 ## 🚀 Get started
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%elmsln%2FpdfFrom)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https%3A%2F%2Fgithub.com%haxtheweb%2FpdfFrom)
 
 ### Or setup manually:
 
 Clone this repository:
 
 ```sh
-git clone https://github.com/elmsln/pdfFrom
+git clone https://github.com/haxtheweb/pdfFrom
 ```
 
 Install all dependencies:
@@ -51,7 +51,7 @@ yarn run deploy
 After you've deployed the function, you can use it by placing your function's domain infront of any URL:
 
 ```
-to-pdf.vercel.app/https://github.com/elmsln/pdfFrom
+to-pdf.vercel.app/https://github.com/haxtheweb/pdfFrom
 ```
 
 The function will then generate a PDF of that URL and return it as a downloadable file.
